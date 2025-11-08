@@ -1,0 +1,23 @@
+{
+  "edition": "Producers",
+  "cards": [
+    { "id": "drdre", "name": "Dr. Dre", "image": "images/DrDre.webp" },
+    { "id": "timbaland", "name": "Timbaland", "image": "images/Timbaland.webp" },
+    { "id": "pharrell", "name": "Pharrell Williams", "image": "images/Pharrell.webp" },
+    { "id": "kanyewest", "name": "Kanye West", "image": "images/KanyeWest.webp" },
+    { "id": "easy_mo_bee", "name": "Easy Mo Bee", "image": "images/EasyMoBee.webp" },
+    { "id": "jermaine_dupri", "name": "Jermaine Dupri", "image": "images/JermaineDupri.webp" },
+    { "id": "the_alchemist", "name": "The Alchemist", "image": "images/TheAlchemist.webp" },
+    { "id": "madlib", "name": "Madlib", "image": "images/Madlib.webp" },
+    { "id": "djpremier", "name": "DJ Premier", "image": "images/DJPremier.webp" },
+    { "id": "peterock", "name": "Pete Rock", "image": "images/PeteRock.webp" },
+    { "id": "qtip", "name": "Q-Tip", "image": "images/QTip.webp" },
+    { "id": "largeprofessor", "name": "Large Professor", "image": "images/LargeProfessor.gif" },
+    { "id": "manniefresh", "name": "Mannie Fresh", "image": "images/MannieFresh.webp" },
+    { "id": "swizzbeatz", "name": "Swizz Beatz", "image": "images/SwizzBeatz.webp" },
+    { "id": "marleymarl", "name": "Marley Marl", "image": "images/MarleyMarl.webp" },
+    { "id": "dj_u_neek", "name": "D.J. U-Neek", "image": "images/DJUNeek.webp" },
+    { "id": "djquick", "name": "DJ Quick", "image": "images/DJQuick.webp" },
+    { "id": "jdilla", "name": "J Dilla", "image": "images/JDilla.webp" }
+  ]
+}

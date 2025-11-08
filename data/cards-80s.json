@@ -1,0 +1,25 @@
+{
+  "edition": "80s Rappers",
+  "cards": [
+    { "id": "run_dmc", "name": "Run-D.M.C.", "image": "images/RunDMC.webp" },
+    { "id": "llcoolj", "name": "LL Cool J", "image": "images/LLCoolJ.webp" },
+    { "id": "publicenemy", "name": "Public Enemy", "image": "images/PublicEnemy.webp" },
+    { "id": "bizmarkie", "name": "Biz Markie", "image": "images/BizMarkie.webp" },
+    { "id": "beastieboys", "name": "Beastie Boys", "image": "images/BeastieBoys.webp" },
+    { "id": "epmd", "name": "Whodini", "image": "images/EPMD.webp" },
+    { "id": "krsone", "name": "KRS-One / Boogie Down Productions", "image": "images/KRSOne.webp" },
+    { "id": "mchammer", "name": "MC Hammer", "image": "images/MCHammer.webp" },
+    { "id": "koolmoedee", "name": "Kool Moe Dee", "image": "images/KoolMoeDee.webp" },
+    { "id": "nice_&_smooth", "name": "Nice & Smooth", "image": "images/Nice&Smooth.webp" },
+    { "id": "nwa", "name": "N.W.A", "image": "images/NWA.webp" },
+    { "id": "kidnplay", "name": "Kid 'N Play", "image": "images/KidNPlay.webp" },
+    { "id": "bigdaddy", "name": "Big Daddy Kane", "image": "images/BigDaddyKane.webp" },
+    { "id": "ice_t", "name": "Ice-T", "image": "images/IceT.webp" },
+    { "id": "delasoul", "name": "De La Soul", "image": "images/DeLaSoul.webp" },
+    { "id": "heavyd&theboyz", "name": "Heavy D & The Boyz", "image": "images/HeavyD.webp" },
+    { "id": "rakim", "name": "Rakim", "image": "images/Rakim.webp" },
+    { "id": "slickrick", "name": "Slick Rick", "image": "images/Slick Rick.jpg" },
+    { "id": "toneloc", "name": "Tone-Lōc", "image": "images/ToneLoc.webp" },
+    { "id": "tooshort", "name": "Too $hort", "image": "images/TooShort.jpg" }
+  ]
+}

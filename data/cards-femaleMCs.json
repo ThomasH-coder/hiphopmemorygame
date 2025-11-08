@@ -1,0 +1,23 @@
+{
+  "edition": "Female Rappers",
+  "cards": [
+    { "id": "queenlatifah", "name": "Queen Latifah", "image": "images/QueenLatifah.webp" },
+    { "id": "laurynhill", "name": "Lauryn Hill", "image": "images/LaurynHill.webp" },
+    { "id": "missyelliott", "name": "Missy Elliott", "image": "images/MissyElliott.webp" },
+    { "id": "lilkim", "name": "Lil' Kim", "image": "images/LilKim.webp" },
+    { "id": "foxybrown", "name": "Foxy Brown", "image": "images/FoxyBrown.webp" },
+    { "id": "nickiminaj", "name": "Nicki Minaj", "image": "images/NickiMinaj.webp" },
+    { "id": "cardib", "name": "Cardi B", "image": "images/CardiB.webp" },
+    { "id": "latto", "name": "Latto", "image": "images/Latto.webp" },
+    { "id": "dojacat", "name": "Doja Cat", "image": "images/DojaCat.webp" },
+    { "id": "megan", "name": "Megan Thee Stallion", "image": "images/MeganTheeStallion.webp" },
+    { "id": "lefteye", "name": "Left Eye", "image": "images/LeftEye.webp" },
+    { "id": "trina", "name": "Trina", "image": "images/Trina.webp" },
+    { "id": "eve", "name": "Eve", "image": "images/Eve.webp" },
+    { "id": "glorilla", "name": "GloRilla", "image": "images/GloRilla.webp" },
+    { "id": "saltnpepa", "name": "Salt-N-Pepa", "image": "images/SaltNPepa.webp" },
+    { "id": "dabrat", "name": "Da Brat", "image": "images/DaBrat.webp" },
+    { "id": "saweetie", "name": "Saweetie", "image": "images/Saweetie.webp" },
+    { "id": "icespice", "name": "Ice Spice", "image": "images/IceSpice.webp" }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "edition": "2010s Rappers",
+  "cards": [
+    { "id": "kendricklamar", "name": "Kendrick Lamar", "image": "images/KendrickLamar.webp" },
+    { "id": "drake", "name": "Drake", "image": "images/Drake.webp" },
+    { "id": "jcole", "name": "J. Cole", "image": "images/JCole.webp" },
+    { "id": "tyler", "name": "Tyler, The Creator", "image": "images/TylerTheCreator.webp" },
+    { "id": "future", "name": "Future", "image": "images/Future.webp" },
+    { "id": "joeybada$$", "name": "Joey Bada$$", "image": "images/JoeyBada$$.webp" },
+    { "id": "raesremmurd", "name": "Rae Sremmurd", "image": "images/RaeSremmurd.webp" },
+    { "id": "larryjune", "name": "Larry June", "image": "images/LarryJune.webp" },
+    { "id": "nipseyhussle", "name": "Nipsey Hussle", "image": "images/NipseyHussle.webp" },
+    { "id": "pusha_t", "name": "Pusha T", "image": "images/PushaT.webp" },
+    { "id": "juicewrld", "name": "Juice WRLD", "image": "images/JuiceWRLD.webp" },
+    { "id": "migos", "name": "Migos", "image": "images/Migos.webp" },
+    { "id": "21savage", "name": "21 Savage", "image": "images/21Savage.webp" },
+    { "id": "travis_scott", "name": "Travis Scott", "image": "images/TravisScott.webp" },
+    { "id": "macmiller", "name": "Mac Miller", "image": "images/MacMiller.webp" },
+    { "id": "xxxtentacion", "name": "XXXTENTACION", "image": "images/XXXTENTACION.webp" },
+    { "id": "childishgambino", "name": "Childish Gambino", "image": "images/ChildishGambino.webp" },
+    { "id": "bigsean", "name": "Big Sean", "image": "images/BigSean.webp" },
+    { "id": "a$apmob", "name": "A$AP Mob", "image": "images/A$APMob.webp" },
+    { "id": "lilyachty", "name": "Lil Yachty", "image": "images/LilYachty.webp" }
+  ]
+}

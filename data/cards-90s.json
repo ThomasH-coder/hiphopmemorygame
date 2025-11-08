@@ -1,0 +1,23 @@
+{
+  "edition": "90s Rappers",
+  "cards": [
+    { "id": "atribecalledquest", "name": "A Tribe Called Quest", "image": "images/A Tribe Called Quest.webp" },
+    { "id": "az", "name": "AZ", "image": "images/AZ.webp" },
+    { "id": "bigpun", "name": "Big Pun", "image": "images/Big Pun.webp" },
+    { "id": "biggie", "name": "The Notorious B.I.G.", "image": "images/Biggie.webp" },
+    { "id": "bonethugs", "name": "Bone Thugs-N-Harmony", "image": "images/Bone Thugs.webp" },
+    { "id": "common", "name": "Common", "image": "images/Common.webp" },
+    { "id": "kriskross", "name": "Kris Kross", "image": "images/KrisKross.webp" },
+    { "id": "eminem", "name": "Eminem", "image": "images/Eminem.webp" },
+    { "id": "mfdoom", "name": "MF DOOM", "image": "images/MF DOOM.webp" },
+    { "id": "nas", "name": "Nas", "image": "images/Nas.webp" },
+    { "id": "pharcyde", "name": "The Pharcyde", "image": "images/Pharcyde.webp" },
+    { "id": "snoopdogg", "name": "Snoop Dogg", "image": "images/SnoopDogg.webp" },
+    { "id": "vanillaice", "name": "Vanilla Ice", "image": "images/VanillaIce.webp" },
+    { "id": "techn9ne", "name": "Tech N9ne", "image": "images/Tech N9ne.jpg" },
+    { "id": "tupac", "name": "Tupac Shakur", "image": "images/Tupac.webp" },
+    { "id": "bigl", "name": "Big L", "image": "images/BigL.webp" },
+    { "id": "soulsofmischief", "name": "Souls Of Mischief", "image": "images/Souls Of Mischief.webp" },
+    { "id": "delfunky", "name": "Del The Funky Homosapien", "image": "images/Del The Funky.webp" }
+  ]
+}

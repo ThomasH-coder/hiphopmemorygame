@@ -1,0 +1,23 @@
+{
+  "edition": "Underground Legends",
+  "cards": [
+    { "id": "aesoprock", "name": "Aesop Rock", "image": "images/AesopRock.webp" },
+    { "id": "atmosphere", "name": "Atmosphere", "image": "images/Atmosphere.webp" },
+    { "id": "quasimoto", "name": "Quasimoto", "image": "images/Quasimoto.webp" },
+    { "id": "organizedkonfusion", "name": "Organized Konfusion", "image": "images/OrganizedKonfusion.webp" },
+    { "id": "camplo", "name": "Camp Lo", "image": "images/CampLo.webp" },
+    { "id": "cannibalox", "name": "Cannibal Ox", "image": "images/CannibalOX.webp" },
+    { "id": "mobbdeep", "name": "Mobb Deep", "image": "images/MobbDeep.webp" },
+    { "id": "brandnubian", "name": "Brand Nubian", "image": "images/BrandNubian.webp" },
+    { "id": "murs", "name": "Murs", "image": "images/Murs.webp" },
+    { "id": "naughtybynature", "name": "Naughty By Nature", "image": "images/NaughtyByNature.webp" },
+    { "id": "jurassic5", "name": "Jurassic 5", "image": "images/Jurassic5.webp" },
+    { "id": "koolgrap", "name": "Kool G Rap", "image": "images/KoolGRap.webp" },
+    { "id": "epmd", "name": "EPMD", "image": "images/EPMD.webp" },
+    { "id": "wutangclan", "name": "Wu-Tang Clan", "image": "images/WuTangClan.webp" },
+    { "id": "gangstarr", "name": "Gang Starr", "image": "images/Gangstarr.webp" },
+    { "id": "freddiegibbs", "name": "Freddie Gibbs", "image": "images/FreddieGibbs.webp" },
+    { "id": "griselda", "name": "Griselda", "image": "images/Griselda.webp" },
+    { "id": "koolkeith", "name": "Kool Keith", "image": "images/KoolKeith.webp" }
+  ]
+}

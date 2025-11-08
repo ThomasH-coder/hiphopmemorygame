@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hip-Hop Memory Game</title>
+  <!-- Favicons & App Icons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64x64.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="images/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="68x68" href="images/apple-touch-icon-68x68.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="images/apple-touch-icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon-180x180.png">
+
+  <!-- Android Icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png">
+
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-square70x70logo" content="images/mstile-70x70.png">
+  <meta name="msapplication-square144x144logo" content="images/mstile-144x144.png">
+  <meta name="msapplication-square150x150logo" content="images/mstile-150x150.png">
+  <meta name="msapplication-square310x310logo" content="images/mstile-310x310.png">
+  <meta name="msapplication-TileColor" content="#067ff8">
+
+
+  <!-- Preload fonts to reduce render-blocking -->
+   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Freckle+Face&family=Lexend+Giga:wght@100..900&family=Righteous&family=Sedgwick+Ave&display=swap" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" as="style" onload="this.rel='stylesheet'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&family=Lexend+Giga:wght@100..900&family=Righteous&family=Sedgwick+Ave&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+  </noscript>
+
+  <!-- Preload critical CSS -->
+  <link rel="preload" href="css/styles.min.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/styles.min.css"></noscript>
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Hip-Hop Memory Game">
+  <meta name="description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hiphopmemory.com/">
+  <meta property="og:title" content="Hip-Hop Memory Game">
+  <meta property="og:description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
+  <meta property="og:image" content="https://hiphopmemory.com/images/social-preview.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://hiphopmemory.com/">
+  <meta name="twitter:title" content="Hip-Hop Memory Game">
+  <meta name="twitter:description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
+  <meta name="twitter:image" content="https://hiphopmemory.com/images/social-preview.png">
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#067ff8">
+</head>
+
+<body>
+
+<div class="parallax">
+  <div class="layer layer-boombox"></div>
+  <div class="layer layer-vinyl"></div>
+  <div class="layer layer-mic"></div>
+</div>
+
+<div class="game-container">
+  <!-- your existing game content -->
+</div>
+  <div class="game-container">
+
+    <!-- Edition Selector -->
+    <div class="menu-container">
+      <label for="edition-select" class="edition-label">Edition:</label>
+      <select id="edition-select">
+        <option value="data/cards-80s.json" data-name="80s Rappers">80s Rappers</option>
+        <option value="data/cards-90s.json" data-name="90s Rappers">90s Rappers</option>
+        <option value="data/cards-2000s.json" data-name="2000s Rappers">2000s Rappers</option>
+        <option value="data/cards-2010s.json" data-name="2010s Rappers">2010s Rappers</option>
+        <option value="data/cards-producers.json" data-name="Producers">Producers</option>
+        <option value="data/cards-femaleMCs.json" data-name="Female Rappers">Female Rappers</option>
+        <option value="data/cards-underground.json" data-name="Underground Legends">Underground</option>
+      </select>
+      <button id="load-game">Start</button>
+    </div>
+
+    <!-- Volume Controls -->
+    <div class="volume-container">
+      <label for="volume-control" class="volume-label">Volume:</label>
+      <span style="padding-left: 9px"></span>
+      <input type="range" id="volume-control" min="0" max="1" step="0.1" value="1">
+    </div>
+
+    <!-- Title Image -->
+    <img src="images/Title.png" class="title-img" alt="Hip-Hop Memory Game Title" width="1024" height="205" loading="lazy">
+
+    <!-- Dynamic Edition Title -->
+    <h1 id="edition-title">Inspect Da Deck</h1>
+      <p id="tag-line">Flip the cards. Match the legends.</p>
+
+    <!-- Best Time -->
+    <p id="best-time">Best Time: --</p>
+
+    <!-- Timer -->
+    <p id="timer">Time: 0s</p>
+
+    <!-- Controls -->
+    <button id="restart">Restart</button>
+    <button id="mute-button">Mute</button>
+
+    <!-- Game Board -->
+    <div id="feedback" aria-live="polite" class="sr-only"></div>
+    <div id="game-board" class="game-board"></div>
+
+    <!-- Leaderboard -->
+    <div id="leaderboard" class="leaderboard"></div>
+  </div>
+
+     <!-- Win Modal -->
+<div id="win-modal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Yo, You Win!</h2>
+    <p id="final-time"></p>
+    <label for="player-name">Enter your name:</label>
+    <input type="text" id="player-name" placeholder="Anonymous">
+    <div class="modal-buttons">
+      <button id="save-score">Save Score</button>
+      <button id="close-modal">Close</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Support Button -->
+  <div class="support-container">
+    <a href="https://cash.app/$SirThomasH" target="_blank" class="support-button">
+      💰 Support My Work
+    </a>
+  </div>
+
+ <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="js/app.min.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "edition": "2000s Rappers",
+  "cards": [
+    { "id": "jayz", "name": "Jay-Z", "image": "images/JayZ.webp" },
+    { "id": "chamillionaire", "name": "Chamillionaire", "image": "images/Chamillionaire.jpg" },
+    { "id": "souljaboy", "name": "Soulja Boy", "image": "images/SouljaBoy.webp" },
+    { "id": "lilwayne", "name": "Lil Wayne", "image": "images/LilWayne.webp" },
+    { "id": "nelly", "name": "Nelly", "image": "images/Nelly.webp" },
+    { "id": "ludacris", "name": "Ludacris", "image": "images/Ludacris.webp" },
+    { "id": "outkast", "name": "Outkast", "image": "images/Outkast.webp" },
+    { "id": "lupefiasco", "name": "Lupe Fiasco", "image": "images/LupeFiasco.webp" },
+    { "id": "tipl", "name": "T.I.", "image": "images/TI.webp" },
+    { "id": "50cent", "name": "50 Cent", "image": "images/50Cent.webp" },
+    { "id": "thegame", "name": "The Game", "image": "images/TheGame.webp" },
+    { "id": "jaRule", "name": "Ja Rule", "image": "images/JaRule.webp" },
+    { "id": "fabolous", "name": "Fabolous", "image": "images/Fabolous.webp" },
+    { "id": "dmx", "name": "DMX", "image": "images/DMX.webp" },
+    { "id": "bowwow", "name": "Bow Wow", "image": "images/BowWow.webp" },
+    { "id": "camron", "name": "Cam’ron", "image": "images/Camron.webp" },
+    { "id": "cashmoney", "name": "Cash Money", "image": "images/CashMoney.webp" },
+    { "id": "clipse", "name": "Clipse", "image": "images/Clipse.jpg" }
+  ]
+}
