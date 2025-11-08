@@ -60,16 +60,25 @@ Object.values(editionLoops).forEach(audio => {
 });
 
 function setVolume(volume) {
+  // Set volume for all main sounds
   flipSound.volume = volume;
   matchSound.volume = volume;
-  winSounds.volume = volume;
+
+  // Set volume for all win sounds
   for (const key in winSounds) {
-  winSounds[key].volume = volume;
-}
+    if (winSounds[key] instanceof Audio) {
+      winSounds[key].volume = volume;
+    }
+  }
+
+  // Set volume for all edition loop tracks
   for (const key in editionLoops) {
-    editionLoops[key].volume = volume;
+    if (editionLoops[key] instanceof Audio) {
+      editionLoops[key].volume = volume;
+    }
   }
 }
+
 setVolume(volumeControl.value);
 
 volumeControl.addEventListener("input", () => {
