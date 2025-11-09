@@ -21,12 +21,9 @@ const closeModalButton = document.getElementById("close-modal");
 // ==========================
 // Audio Setup
 // ==========================
-
-// Main sound effects
 const flipSound = new Audio("sounds/flip.mp3");
 const matchSound = new Audio("sounds/match.mp3");
 
-// Win sounds per edition
 const winSounds = {
   "80s Rappers": new Audio("sounds/win.mp3"),
   "90s Rappers": new Audio("sounds/win.mp3"),
@@ -37,7 +34,6 @@ const winSounds = {
   "Underground Legends": new Audio("sounds/win.mp3")
 };
 
-// Background loops per edition
 const editionLoops = {
   "80s Rappers": new Audio("sounds/loops/80s.mp3"),
   "90s Rappers": new Audio("sounds/loops/90s.mp3"),
@@ -48,13 +44,10 @@ const editionLoops = {
   "Underground Legends": new Audio("sounds/loops/underground.mp3")
 };
 
-// Cache for editions
-const editionCache = {};
-
-// Configure loops to autoplay, loop, and quieter than effects
+// Set loop autoplay & quieter volume
 Object.values(editionLoops).forEach(audio => {
   audio.loop = true;
-  audio.volume = 0.3; // default background loop volume
+  audio.volume = 0.3;
 });
 
 // ==========================
@@ -63,16 +56,10 @@ Object.values(editionLoops).forEach(audio => {
 let isMuted = false;
 
 function setVolume(volume) {
-  flipSound.volume = Math.min(volume * 1.5, 1); // 50% louder than main volume
+  flipSound.volume = Math.min(volume * 1.5, 1);
   matchSound.volume = volume;
-
-  for (const key in winSounds) {
-    if (winSounds[key] instanceof Audio) winSounds[key].volume = volume;
-  }
-
-  for (const key in editionLoops) {
-    if (editionLoops[key] instanceof Audio) editionLoops[key].volume = volume * 0.3; // keep loops soft
-  }
+  for (const key in winSounds) winSounds[key].volume = volume;
+  for (const key in editionLoops) editionLoops[key].volume = volume * 0.3;
 }
 
 setVolume(volumeControl.value);
@@ -140,6 +127,7 @@ function shuffle(array) {
 // ==========================
 // Load JSON Edition
 // ==========================
+const editionCache = {};
 async function loadEdition(file) {
   if (editionCache[file]) return editionCache[file];
   const response = await fetch(file);
@@ -148,37 +136,34 @@ async function loadEdition(file) {
   return data;
 }
 
+function injectSEOContent(cards) {
+  const seoDiv = document.getElementById("seo-content");
+  seoDiv.innerHTML = cards.map(c => `<span>${c.name}</span>`).join(" ");
+}
+
+
 // ==========================
 // Start Game
 // ==========================
 async function startGame(file = "data/cards-90s.json", editionName = "90s Rappers") {
   currentEdition = editionName;
 
-  // Stop all loops
   Object.values(editionLoops).forEach(audio => audio.pause());
 
-  // Start current edition loop
   const loop = editionLoops[currentEdition];
-  if (!isMuted && loop) {
-    loop.currentTime = 0;
-    loop.play();
-    loop.volume = volumeControl.value * 0.3;
-  }
+  if (!isMuted && loop) { loop.currentTime = 0; loop.play(); loop.volume = volumeControl.value * 0.3; }
 
-  // Fade out win sounds
   for (const key in winSounds) {
     const sound = winSounds[key];
     if (sound instanceof Audio) {
       if (!sound.paused && sound.currentTime > 0) fadeOutAudio(sound);
-      else {
-        sound.pause();
-        sound.currentTime = 0;
-      }
+      else { sound.pause(); sound.currentTime = 0; }
     }
   }
 
   const data = await loadEdition(file);
   document.getElementById("edition-title").textContent = data.edition;
+  injectSEOContent(data.cards);
 
   gameBoard.innerHTML = "";
   flippedCards = [];
@@ -192,6 +177,7 @@ async function startGame(file = "data/cards-90s.json", editionName = "90s Rapper
     const card = document.createElement("div");
     card.classList.add("card");
     card.dataset.name = cardData.id;
+    card.dataset.cardName = cardData.name; // human-readable name for display
     card.setAttribute("tabindex", "0");
     card.setAttribute("role", "button");
     card.setAttribute("aria-label", `Card: ${cardData.name}`);
@@ -212,16 +198,15 @@ async function startGame(file = "data/cards-90s.json", editionName = "90s Rapper
     cardInner.appendChild(cardFront);
     cardInner.appendChild(cardBack);
     card.appendChild(cardInner);
-
+    // Disable native dragging
+    card.ondragstart = (e) => e.preventDefault();
     card.addEventListener("click", flipCard);
     card.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        card.click();
-      }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.click(); }
     });
 
     gameBoard.appendChild(card);
+    
   });
 
   clearInterval(timer);
@@ -237,10 +222,7 @@ async function startGame(file = "data/cards-90s.json", editionName = "90s Rapper
 // ==========================
 function flipCard() {
   if (flippedCards.length < 2 && !this.classList.contains("flipped")) {
-    if (!isMuted) {
-      flipSound.currentTime = 0;
-      flipSound.play(); // louder than loop
-    }
+    if (!isMuted) { flipSound.currentTime = 0; flipSound.play(); }
     this.classList.add("flipped");
     flippedCards.push(this);
     if (flippedCards.length === 2) checkMatch();
@@ -255,8 +237,15 @@ function checkMatch() {
   if (c1.dataset.name === c2.dataset.name) {
     if (!isMuted) matchSound.play();
     matchedCards.push(c1.dataset.name);
-    document.getElementById("feedback").textContent = `Match found: ${c1.dataset.name}`;
+    const feedbackEl = document.getElementById("match-feedback");
+    // Show match feedback
+    feedbackEl.textContent = `Matched: ${c1.dataset.cardName}`;
+    feedbackEl.style.opacity = 1;
+    // Fade out after 3 seconds
+    setTimeout(() => {
+    feedbackEl.style.opacity = 0;}, 3000);
     flippedCards = [];
+
 
     const now = Date.now();
     if (now - lastMatchTime <= 10000) comboCount++;
@@ -335,15 +324,18 @@ function showBestTime(edition) {
 }
 
 // ==========================
-// Parallax
+// Parallax (Mobile-Safe)
 // ==========================
+
+// Detect mobile reliably
+const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 let parallaxX = 0, parallaxY = 0, parallaxFrameId = null;
 
-function updateParallax(xFactor, yFactor) {
+function updateParallax(xF, yF) {
   const layers = document.querySelectorAll(".layer");
-  layers.forEach((layer, index) => {
-    const depth = (index + 1) * 10;
-    layer.style.transform = `translate(${xFactor * depth}px, ${yFactor * depth}px)`;
+  layers.forEach((layer, idx) => {
+    layer.style.transform = `translate(${xF*(idx+1)*10}px, ${yF*(idx+1)*10}px)`;
   });
 }
 
@@ -355,19 +347,17 @@ function requestParallaxUpdate() {
   });
 }
 
-document.addEventListener("mousemove", e => {
-  parallaxX = (e.clientX / window.innerWidth - 0.5) * 2;
-  parallaxY = (e.clientY / window.innerHeight - 0.5) * 2;
-  requestParallaxUpdate();
-});
-
-document.addEventListener("touchmove", e => {
-  if (e.touches.length > 0) {
-    parallaxX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
-    parallaxY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+// ✅ Desktop = Parallax ON
+if (!isMobile) {
+  document.addEventListener("mousemove", e => {
+    parallaxX = (e.clientX / window.innerWidth - 0.5) * 2;
+    parallaxY = (e.clientY / window.innerHeight - 0.5) * 2;
     requestParallaxUpdate();
-  }
-});
+  });
+}
+
+// ✅ Mobile = Parallax OFF (no touchmove listener, no lag)
+
 
 // ==========================
 // Modal Events
@@ -412,18 +402,11 @@ function triggerComboEffect(count) {
   if (!isMuted) new Audio("sounds/combo.mp3").play();
 
   import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js')
-  .then((module) => {
-    const confetti = module; // just use module directly
-    confetti({
-      particleCount: 150,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  })
-  .catch((error) => {
-    console.error('Confetti failed to load:', error);
-  });
-
+    .then(module => {
+      const confetti = module;
+      confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    })
+    .catch(err => console.error('Confetti failed to load:', err));
 }
 
 function launchCanvasConfetti() {
@@ -438,10 +421,14 @@ function launchEmojiBurst(count = 70) {
     const emoji = document.createElement("div");
     emoji.className = "emoji-burst";
     emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.left = `${Math.random() * 100}%`;
-    emoji.style.fontSize = `${1.5 + Math.random()}rem`;
-    emoji.style.animationDuration = `${3 + Math.random() * 4}s`;
+    emoji.style.left = `${Math.random()*100}%`;
+    emoji.style.fontSize = `${1.5+Math.random()}rem`;
+    emoji.style.animationDuration = `${3+Math.random()*4}s`;
     document.body.appendChild(emoji);
-    setTimeout(() => emoji.remove(), parseFloat(emoji.style.animationDuration) * 1000);
+    setTimeout(() => emoji.remove(), parseFloat(emoji.style.animationDuration)*1000);
   }
 }
+
+// Prevent users from dragging cards and exposing other cards
+gameBoard.addEventListener("dragstart", e => e.preventDefault());
+

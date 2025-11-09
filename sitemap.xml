@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://hiphopmemory.com/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Editions -->
+  <url>
+    <loc>https://hiphopmemory.com/?edition=80s</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hiphopmemory.com/?edition=90s</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hiphopmemory.com/?edition=2000s</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hiphopmemory.com/?edition=2010s</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hiphopmemory.com/?edition=producers</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hiphopmemory.com/?edition=femalemcs</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hiphopmemory.com/?edition=underground</loc>
+    <lastmod>2025-11-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

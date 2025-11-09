@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hip-Hop Memory Game</title>
+  <meta name="description" content="Play the ultimate Hip-Hop Memory Game! Match cards of your favorite rappers and producers from the 80s, 90s, 2000s, 2010s, and more. Fun for fans of all ages.">
+  <meta name="keywords" content="Hip-Hop, Memory Game, 80s Rappers, 90s Rappers, 2000s Rappers, 2010s Rappers, Producers, Female Rappers, Underground Legends">
+  <meta name="author" content="Tommy H">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Favicons & App Icons -->
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
@@ -69,9 +73,28 @@
   <!-- Web App Manifest -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#067ff8">
+  <!-- Structured Data for Google Rich Results -->
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "Hip-Hop Memory Game",
+  "description": "Test your memory with your favorite hip-hop artists! Match cards of rappers and producers from the 80s to today.",
+  "url": "https://hiphopmemory.com",
+  "image": "https://hiphopmemory.com/images/social-preview.png",
+  "author": {
+    "@type": "Person",
+    "name": "Tommy H"
+  },
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web",
+  "genre": "Puzzle, Music, Memory"}
+  </script>
+
 </head>
 
 <body>
+<!-- SEO Indexing Content -->
+<div id="seo-content" style="display:none;"></div>
 
 <div class="parallax">
   <div class="layer layer-boombox"></div>
@@ -118,6 +141,8 @@
 
     <!-- Timer -->
     <p id="timer">Time: 0s</p>
+
+    <div id="match-feedback" aria-live="polite"></div>
 
     <!-- Controls -->
     <button id="restart">Restart</button>
