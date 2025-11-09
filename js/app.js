@@ -1,4 +1,6 @@
+// ==========================
 // DOM Elements
+// ==========================
 const gameBoard = document.getElementById("game-board");
 const restartButton = document.getElementById("restart");
 const timerElement = document.getElementById("timer");
@@ -16,10 +18,15 @@ const playerNameInput = document.getElementById("player-name");
 const saveScoreButton = document.getElementById("save-score");
 const closeModalButton = document.getElementById("close-modal");
 
-// Sounds
+// ==========================
+// Audio Setup
+// ==========================
+
+// Main sound effects
 const flipSound = new Audio("sounds/flip.mp3");
 const matchSound = new Audio("sounds/match.mp3");
 
+// Win sounds per edition
 const winSounds = {
   "80s Rappers": new Audio("sounds/win.mp3"),
   "90s Rappers": new Audio("sounds/win.mp3"),
@@ -30,16 +37,7 @@ const winSounds = {
   "Underground Legends": new Audio("sounds/win.mp3")
 };
 
-const editionEmojis = {
-  "80s Rappers": ["🎤", "📼", "🕶️", "🎧"],
-  "90s Rappers": ["🔥", "🎶", "🎧", "💿"],
-  "2000s Rappers": ["💥", "🎧", "📱", "🎵"],
-  "2010s Rappers": ["✨", "🎧", "📸", "🎤"],
-  "Producers": ["🎛️", "🎚️", "🎧", "🔊"],
-  "Female Rappers": ["💅", "🎤", "👑", "💖"],
-  "Underground Legends": ["🧠", "🎧", "🕶️", "💣"]
-};
-
+// Background loops per edition
 const editionLoops = {
   "80s Rappers": new Audio("sounds/loops/80s.mp3"),
   "90s Rappers": new Audio("sounds/loops/90s.mp3"),
@@ -48,34 +46,32 @@ const editionLoops = {
   "Producers": new Audio("sounds/loops/producers.mp3"),
   "Female Rappers": new Audio("sounds/loops/femalerappers.mp3"),
   "Underground Legends": new Audio("sounds/loops/underground.mp3")
-  // Add more editions...
 };
 
-//cache object
+// Cache for editions
 const editionCache = {};
 
+// Configure loops to autoplay, loop, and quieter than effects
 Object.values(editionLoops).forEach(audio => {
   audio.loop = true;
-  audio.volume = 0.3; // Adjust to taste
+  audio.volume = 0.3; // default background loop volume
 });
 
+// ==========================
+// Volume Control
+// ==========================
+let isMuted = false;
+
 function setVolume(volume) {
-  // Set volume for all main sounds
-  flipSound.volume = volume;
+  flipSound.volume = Math.min(volume * 1.5, 1); // 50% louder than main volume
   matchSound.volume = volume;
 
-  // Set volume for all win sounds
   for (const key in winSounds) {
-    if (winSounds[key] instanceof Audio) {
-      winSounds[key].volume = volume;
-    }
+    if (winSounds[key] instanceof Audio) winSounds[key].volume = volume;
   }
 
-  // Set volume for all edition loop tracks
   for (const key in editionLoops) {
-    if (editionLoops[key] instanceof Audio) {
-      editionLoops[key].volume = volume;
-    }
+    if (editionLoops[key] instanceof Audio) editionLoops[key].volume = volume * 0.3; // keep loops soft
   }
 }
 
@@ -87,18 +83,8 @@ volumeControl.addEventListener("input", () => {
 
 muteButton.addEventListener("click", () => {
   isMuted = !isMuted;
-
-  const allAudio = [
-    flipSound,
-    matchSound,
-    ...Object.values(winSounds),
-    ...Object.values(editionLoops)
-  ];
-
-  allAudio.forEach(audio => {
-    audio.muted = isMuted;
-  });
-
+  const allAudio = [flipSound, matchSound, ...Object.values(winSounds), ...Object.values(editionLoops)];
+  allAudio.forEach(audio => audio.muted = isMuted);
   muteButton.textContent = isMuted ? "Unmute" : "Mute";
 });
 
@@ -117,9 +103,9 @@ function fadeOutAudio(audio, duration = 1000) {
   }, 50);
 }
 
-// Mute all sounds
-
-// 🎮 Game State
+// ==========================
+// Game State
+// ==========================
 let timer = null;
 let seconds = 0;
 let flippedCards = [];
@@ -127,10 +113,23 @@ let matchedCards = [];
 let currentEdition = "90s Rappers";
 let lastMatchTime = 0;
 let comboCount = 0;
-let isMuted = false;
 
+// ==========================
+// Editions & Emojis
+// ==========================
+const editionEmojis = {
+  "80s Rappers": ["🎤", "📼", "🕶️", "🎧"],
+  "90s Rappers": ["🔥", "🎶", "🎧", "💿"],
+  "2000s Rappers": ["💥", "🎧", "📱", "🎵"],
+  "2010s Rappers": ["✨", "🎧", "📸", "🎤"],
+  "Producers": ["🎛️", "🎚️", "🎧", "🔊"],
+  "Female Rappers": ["💅", "🎤", "👑", "💖"],
+  "Underground Legends": ["🧠", "🎧", "🕶️", "💣"]
+};
 
-// Shuffle helper
+// ==========================
+// Shuffle Helper
+// ==========================
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -138,42 +137,47 @@ function shuffle(array) {
   }
 }
 
-// Load JSON edition with caching object
+// ==========================
+// Load JSON Edition
+// ==========================
 async function loadEdition(file) {
-  if (editionCache[file]) {
-    return editionCache[file]; // Use cached data
-  }
-
+  if (editionCache[file]) return editionCache[file];
   const response = await fetch(file);
   const data = await response.json();
-  editionCache[file] = data; // Store in cache
+  editionCache[file] = data;
   return data;
 }
 
-// Start game
+// ==========================
+// Start Game
+// ==========================
 async function startGame(file = "data/cards-90s.json", editionName = "90s Rappers") {
   currentEdition = editionName;
-  Object.values(editionLoops).forEach(audio => audio.pause()); // Stop all
-const loop = editionLoops[currentEdition];
-if (!isMuted && loop) {
-  loop.currentTime = 0;
-  loop.play();
-}
-  // Fade out any playing win sounds to prevent overlap
+
+  // Stop all loops
+  Object.values(editionLoops).forEach(audio => audio.pause());
+
+  // Start current edition loop
+  const loop = editionLoops[currentEdition];
+  if (!isMuted && loop) {
+    loop.currentTime = 0;
+    loop.play();
+    loop.volume = volumeControl.value * 0.3;
+  }
+
+  // Fade out win sounds
   for (const key in winSounds) {
-  const sound = winSounds[key];
-  if (sound instanceof Audio) {
-    if (!sound.paused && sound.currentTime > 0) {
-      fadeOutAudio(sound);
-    } else {
-      sound.pause();
-      sound.currentTime = 0;
+    const sound = winSounds[key];
+    if (sound instanceof Audio) {
+      if (!sound.paused && sound.currentTime > 0) fadeOutAudio(sound);
+      else {
+        sound.pause();
+        sound.currentTime = 0;
+      }
     }
   }
-}
 
   const data = await loadEdition(file);
-  currentEdition = editionName;
   document.getElementById("edition-title").textContent = data.edition;
 
   gameBoard.innerHTML = "";
@@ -210,12 +214,13 @@ if (!isMuted && loop) {
     card.appendChild(cardInner);
 
     card.addEventListener("click", flipCard);
-    card.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-    e.preventDefault();
-    card.click();
-  }
-});
+    card.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        card.click();
+      }
+    });
+
     gameBoard.appendChild(card);
   });
 
@@ -227,12 +232,14 @@ if (!isMuted && loop) {
   showLeaderboard(currentEdition);
 }
 
-// Flip logic
+// ==========================
+// Flip Logic
+// ==========================
 function flipCard() {
   if (flippedCards.length < 2 && !this.classList.contains("flipped")) {
     if (!isMuted) {
       flipSound.currentTime = 0;
-      flipSound.play();
+      flipSound.play(); // louder than loop
     }
     this.classList.add("flipped");
     flippedCards.push(this);
@@ -240,28 +247,23 @@ function flipCard() {
   }
 }
 
+// ==========================
+// Match Logic
+// ==========================
 function checkMatch() {
   const [c1, c2] = flippedCards;
   if (c1.dataset.name === c2.dataset.name) {
     if (!isMuted) matchSound.play();
     matchedCards.push(c1.dataset.name);
-     // 🔊 Accessibility feedback
     document.getElementById("feedback").textContent = `Match found: ${c1.dataset.name}`;
     flippedCards = [];
 
-    // 🔥 Combo streak logic
     const now = Date.now();
-    if (now - lastMatchTime <= 10000) {
-      comboCount++;
-    } else {
-      comboCount = 1;
-    }
+    if (now - lastMatchTime <= 10000) comboCount++;
+    else comboCount = 1;
     lastMatchTime = now;
 
-    if (comboCount >= 2) {
-      triggerComboEffect(comboCount);
-    }
-
+    if (comboCount >= 2) triggerComboEffect(comboCount);
     if (matchedCards.length === gameBoard.children.length / 2) endGame();
   } else {
     setTimeout(() => {
@@ -272,29 +274,35 @@ function checkMatch() {
   }
 }
 
+// ==========================
+// Timer
+// ==========================
 function updateTimer() {
   seconds++;
   timerElement.textContent = `Time: ${seconds}s`;
 }
 
-// End game + modal
+// ==========================
+// End Game
+// ==========================
 function endGame() {
   clearInterval(timer);
   if (!isMuted && winSounds[currentEdition]) {
-  winSounds[currentEdition].currentTime = 0;
-  winSounds[currentEdition].play();
-  launchCanvasConfetti();
-  launchEmojiBurst();
-  Object.values(editionLoops).forEach(audio => audio.pause());
-}
+    winSounds[currentEdition].currentTime = 0;
+    winSounds[currentEdition].play();
+    launchCanvasConfetti();
+    launchEmojiBurst();
+    Object.values(editionLoops).forEach(audio => audio.pause());
+  }
 
-  // Show modal
   finalTimeElement.textContent = `Time: ${seconds}s`;
   playerNameInput.value = "";
   winModal.classList.remove("hidden");
 }
 
-// Leaderboard functions
+// ==========================
+// Leaderboard
+// ==========================
 function updateLeaderboard(edition, time, name) {
   const key = `leaderboard_${edition}`;
   let leaderboard = JSON.parse(localStorage.getItem(key)) || [];
@@ -308,41 +316,34 @@ function showLeaderboard(edition) {
   const key = `leaderboard_${edition}`;
   const leaderboard = JSON.parse(localStorage.getItem(key)) || [];
   leaderboardContainer.innerHTML = `<h3>${edition} Leaderboard</h3>`;
-  if (leaderboard.length === 0) {
-    leaderboardContainer.innerHTML += "<p>No scores yet.</p>";
-    return;
+  if (leaderboard.length === 0) leaderboardContainer.innerHTML += "<p>No scores yet.</p>";
+  else {
+    const list = document.createElement("ol");
+    leaderboard.forEach(entry => {
+      const li = document.createElement("li");
+      li.textContent = `${entry.name} - ${entry.time}s`;
+      list.appendChild(li);
+    });
+    leaderboardContainer.appendChild(list);
   }
-  const list = document.createElement("ol");
-  leaderboard.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.name} - ${entry.time}s`;
-    list.appendChild(li);
-  });
-  leaderboardContainer.appendChild(list);
 }
 
 function showBestTime(edition) {
   const key = `leaderboard_${edition}`;
   const leaderboard = JSON.parse(localStorage.getItem(key)) || [];
-  if (leaderboard.length > 0) {
-    bestTimeElement.textContent = `Best Time: ${leaderboard[0].time}s`;
-  } else {
-    bestTimeElement.textContent = "Best Time: --";
-  }
+  bestTimeElement.textContent = leaderboard.length > 0 ? `Best Time: ${leaderboard[0].time}s` : "Best Time: --";
 }
 
-// Unified Parallax Handler with requestAnimationFrame
-let parallaxX = 0;
-let parallaxY = 0;
-let parallaxFrameId = null;
+// ==========================
+// Parallax
+// ==========================
+let parallaxX = 0, parallaxY = 0, parallaxFrameId = null;
 
 function updateParallax(xFactor, yFactor) {
   const layers = document.querySelectorAll(".layer");
   layers.forEach((layer, index) => {
     const depth = (index + 1) * 10;
-    const moveX = xFactor * depth;
-    const moveY = yFactor * depth;
-    layer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    layer.style.transform = `translate(${xFactor * depth}px, ${yFactor * depth}px)`;
   });
 }
 
@@ -354,13 +355,13 @@ function requestParallaxUpdate() {
   });
 }
 
-document.addEventListener("mousemove", (e) => {
+document.addEventListener("mousemove", e => {
   parallaxX = (e.clientX / window.innerWidth - 0.5) * 2;
   parallaxY = (e.clientY / window.innerHeight - 0.5) * 2;
   requestParallaxUpdate();
 });
 
-document.addEventListener("touchmove", (e) => {
+document.addEventListener("touchmove", e => {
   if (e.touches.length > 0) {
     parallaxX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
     parallaxY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
@@ -368,9 +369,9 @@ document.addEventListener("touchmove", (e) => {
   }
 });
 
-
-
-// Modal event listeners
+// ==========================
+// Modal Events
+// ==========================
 saveScoreButton.addEventListener("click", () => {
   const name = playerNameInput.value.trim() || "Anonymous";
   updateLeaderboard(currentEdition, seconds, name);
@@ -380,78 +381,55 @@ saveScoreButton.addEventListener("click", () => {
   winModal.classList.add("hidden");
 });
 
-closeModalButton.addEventListener("click", () => {
-  winModal.classList.add("hidden");
-});
+closeModalButton.addEventListener("click", () => winModal.classList.add("hidden"));
 
-// Event listeners
+// ==========================
+// Game Controls
+// ==========================
 loadGameButton.addEventListener("click", () => {
   const file = editionSelect.value;
   const editionName = editionSelect.options[editionSelect.selectedIndex].dataset.name;
-
   startGame(file, editionName);
 });
 
 restartButton.addEventListener("click", () => {
-    // Stop and reset all background loops
-  Object.values(editionLoops).forEach(audio => {
-    audio.pause();
-    audio.currentTime = 0;
-  });
-
-
-  // Get selected edition
+  Object.values(editionLoops).forEach(audio => { audio.pause(); audio.currentTime = 0; });
   const file = editionSelect.value;
   const editionName = editionSelect.options[editionSelect.selectedIndex].dataset.name;
-
-  // Start the game (this should trigger the correct loop)
   startGame(file, editionName);
 });
 
-// Combo Effect
+// ==========================
+// Combo & Effects
+// ==========================
 function triggerComboEffect(count) {
   const comboBanner = document.createElement("div");
   comboBanner.className = "combo-banner";
   comboBanner.textContent = `🔥 Combo x${count}! 🔥`;
   document.body.appendChild(comboBanner);
+  setTimeout(() => comboBanner.remove(), 1500);
 
-  setTimeout(() => {
-    comboBanner.remove();
-  }, 1500);
+  if (!isMuted) new Audio("sounds/combo.mp3").play();
 
-  if (!isMuted) {
-    const comboSound = new Audio("sounds/combo.mp3");
-    comboSound.play();
-  }
-
-  // 🎉 Dynamically load confetti only when needed
   import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js')
-    .then((module) => {
-      const confetti = module.default;
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
-    })
-    .catch((error) => {
-      console.error('Confetti failed to load:', error);
+  .then((module) => {
+    const confetti = module; // just use module directly
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
     });
+  })
+  .catch((error) => {
+    console.error('Confetti failed to load:', error);
+  });
+
 }
 
-// Confetti Win Launch
 function launchCanvasConfetti() {
   if (typeof confetti !== "function") return;
-
   const emojis = editionEmojis[currentEdition] || ["🎉", "✨", "🎧"];
-  confetti({
-    particleCount: 100,
-    spread: 170,
-    origin: { y: 0.6 },
-    emojis: emojis,
-    scalar: 1.2, 
-    shapes: ["emoji"]
-  });
+  confetti({ particleCount: 100, spread: 170, origin: { y: 0.6 }, emojis, scalar: 1.2, shapes: ["emoji"] });
 }
 
 function launchEmojiBurst(count = 70) {
@@ -460,19 +438,10 @@ function launchEmojiBurst(count = 70) {
     const emoji = document.createElement("div");
     emoji.className = "emoji-burst";
     emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-
-    // Spread out horizontally
     emoji.style.left = `${Math.random() * 100}%`;
-
-    // Randomize size slightly
     emoji.style.fontSize = `${1.5 + Math.random()}rem`;
-
-    // Fall slower
-    const duration = 3 + Math.random() * 4; // between 3–5 seconds
-    emoji.style.animationDuration = `${duration}s`;
-
-
+    emoji.style.animationDuration = `${3 + Math.random() * 4}s`;
     document.body.appendChild(emoji);
-    setTimeout(() => emoji.remove(), duration * 1000);
+    setTimeout(() => emoji.remove(), parseFloat(emoji.style.animationDuration) * 1000);
   }
 }
