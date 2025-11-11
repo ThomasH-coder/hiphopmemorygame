@@ -4,17 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hip-Hop Memory Game</title>
-  <meta name="description" content="Play the ultimate Hip-Hop Memory Game! Match cards of your favorite rappers and producers from the 80s, 90s, 2000s, 2010s, and more. Fun for fans of all ages.">
+
+  <!-- Primary Meta Tags -->
+  <meta name="description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
   <meta name="keywords" content="Hip-Hop, Memory Game, 80s Rappers, 90s Rappers, 2000s Rappers, 2010s Rappers, Producers, Female Rappers, Underground Legends">
   <meta name="author" content="Tommy H">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="title" content="Hip-Hop Memory Game">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hiphopmemory.com/">
+  <meta property="og:title" content="Hip-Hop Memory Game">
+  <meta property="og:description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
+  <meta property="og:image" content="https://hiphopmemory.com/images/social-preview.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://hiphopmemory.com/">
+  <meta name="twitter:title" content="Hip-Hop Memory Game">
+  <meta name="twitter:description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
+  <meta name="twitter:image" content="https://hiphopmemory.com/images/social-preview.png">
+
   <!-- Favicons & App Icons -->
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48x48.png">
   <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64x64.png">
   <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
-  
+
   <!-- Apple Touch Icons -->
   <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="images/apple-touch-icon-60x60.png">
@@ -38,59 +55,53 @@
   <meta name="msapplication-square150x150logo" content="images/mstile-150x150.png">
   <meta name="msapplication-square310x310logo" content="images/mstile-310x310.png">
   <meta name="msapplication-TileColor" content="#067ff8">
+  
 
-
-  <!-- Preload fonts to reduce render-blocking -->
-   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Freckle+Face&family=Lexend+Giga:wght@100..900&family=Righteous&family=Sedgwick+Ave&display=swap" as="style" onload="this.rel='stylesheet'">
+  <!-- Preload Fonts Individually with font-display: swap -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave&display=swap" as="style" onload="this.rel='stylesheet'">
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" as="style" onload="this.rel='stylesheet'">
+
   <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&family=Lexend+Giga:wght@100..900&family=Righteous&family=Sedgwick+Ave&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
   </noscript>
 
   <!-- Preload critical CSS -->
   <link rel="preload" href="css/styles.min.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="preload" fetchpriority="high" as="image" href="images/boombox.webp" type="image/webp">
   <noscript><link rel="stylesheet" href="css/styles.min.css"></noscript>
-
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="Hip-Hop Memory Game">
-  <meta name="description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hiphopmemory.com/">
-  <meta property="og:title" content="Hip-Hop Memory Game">
-  <meta property="og:description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
-  <meta property="og:image" content="https://hiphopmemory.com/images/social-preview.png">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://hiphopmemory.com/">
-  <meta name="twitter:title" content="Hip-Hop Memory Game">
-  <meta name="twitter:description" content="Flip the cards and match legendary hip-hop artists across decades in this interactive memory game.">
-  <meta name="twitter:image" content="https://hiphopmemory.com/images/social-preview.png">
 
   <!-- Web App Manifest -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#067ff8">
-  <!-- Structured Data for Google Rich Results -->
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "Game",
-  "name": "Hip-Hop Memory Game",
-  "description": "Test your memory with your favorite hip-hop artists! Match cards of rappers and producers from the 80s to today.",
-  "url": "https://hiphopmemory.com",
-  "image": "https://hiphopmemory.com/images/social-preview.png",
-  "author": {
-    "@type": "Person",
-    "name": "Tommy H"
-  },
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web",
-  "genre": "Puzzle, Music, Memory"}
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Game",
+    "name": "Hip Hop Memory Game",
+    "description": "Test your memory with your favorite hip-hop artists! Match cards of rappers and producers from the 80s to today.",
+    "url": "https://hiphopmemory.com",
+    "image": "https://hiphopmemory.com/images/social-preview.png",
+    "author": {
+      "@type": "Person",
+      "name": "Tommy H"
+    },
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "genre": "Puzzle, Music, Memory"
+  }
   </script>
 
 </head>
+
 
 <body>
 <!-- SEO Indexing Content -->
@@ -98,8 +109,6 @@
 
 <div class="parallax">
   <div class="layer layer-boombox"></div>
-  <div class="layer layer-vinyl"></div>
-  <div class="layer layer-mic"></div>
 </div>
 
 <div class="game-container">
@@ -130,8 +139,8 @@
     </div>
 
     <!-- Title Image -->
-    <img src="images/Title.png" class="title-img" alt="Hip-Hop Memory Game Title" width="1024" height="205" loading="lazy">
-
+    <img src="images/Title.webp" class="title-img" alt="Hip-Hop Memory Game Title" width="1024" height="205" loading="eager" fetchpriority="high">
+    
     <!-- Dynamic Edition Title -->
     <h1 id="edition-title">Inspect Da Deck</h1>
       <p id="tag-line">Flip the cards. Match the legends.</p>

@@ -44,6 +44,8 @@ const editionLoops = {
   "Underground Legends": new Audio("sounds/loops/underground.mp3")
 };
 
+
+
 // Set loop autoplay & quieter volume
 Object.values(editionLoops).forEach(audio => {
   audio.loop = true;
@@ -431,4 +433,5 @@ function launchEmojiBurst(count = 70) {
 
 // Prevent users from dragging cards and exposing other cards
 gameBoard.addEventListener("dragstart", e => e.preventDefault());
+
 
