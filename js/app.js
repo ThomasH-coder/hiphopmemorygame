@@ -19,6 +19,18 @@ const saveScoreButton = document.getElementById("save-score");
 const closeModalButton = document.getElementById("close-modal");
 
 // ==========================
+// Safari Audio Unlock
+// ==========================
+document.addEventListener("click", () => {
+  if (typeof AudioContext !== "undefined") {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+  }
+}, { once: true });
+
+// ==========================
 // Audio Setup
 // ==========================
 const flipSound = new Audio("sounds/flip.mp3");
@@ -64,7 +76,6 @@ function setVolume(volume) {
   for (const key in editionLoops) editionLoops[key].volume = volume * 0.3;
 }
 
-setVolume(volumeControl.value);
 
 volumeControl.addEventListener("input", () => {
   if (!isMuted) setVolume(volumeControl.value);
@@ -379,6 +390,7 @@ closeModalButton.addEventListener("click", () => winModal.classList.add("hidden"
 // Game Controls
 // ==========================
 loadGameButton.addEventListener("click", () => {
+  setVolume(volumeControl.value); // ✅ Now runs after user gesture — Safari allows it
   const file = editionSelect.value;
   const editionName = editionSelect.options[editionSelect.selectedIndex].dataset.name;
   startGame(file, editionName);
