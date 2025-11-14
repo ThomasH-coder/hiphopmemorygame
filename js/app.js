@@ -57,12 +57,37 @@ const editionLoops = {
 };
 
 
-
 // Set loop autoplay & quieter volume
 Object.values(editionLoops).forEach(audio => {
   audio.loop = true;
   audio.volume = 0.3;
 });
+
+// ==========================
+// Safari Audio Activation Fix
+// ==========================
+function primeAudio(audio) {
+  audio.volume = 0;
+  const playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise
+      .then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      })
+      .catch(() => {
+        // Safari blocks autoplay — that's fine.
+        // The attempt still unlocks the audio element.
+      });
+  }
+}
+
+// Prime all audio elements on load
+primeAudio(flipSound);
+primeAudio(matchSound);
+Object.values(winSounds).forEach(primeAudio);
+Object.values(editionLoops).forEach(primeAudio);
+
 
 // ==========================
 // Volume Control
