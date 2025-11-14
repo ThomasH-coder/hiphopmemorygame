@@ -94,8 +94,8 @@ Object.values(editionLoops).forEach(primeAudio);
 // ==========================
 let isMuted = false;
 
+// Core volume setter
 function setVolume(vol) {
-  // Ensure numeric & clamped 0–1
   const v = Math.min(Math.max(parseFloat(vol), 0), 1);
 
   flipSound.volume = Math.min(v * 1.5, 1);
@@ -105,32 +105,43 @@ function setVolume(vol) {
   Object.values(editionLoops).forEach(audio => audio.volume = v * 0.3);
 }
 
+// Mute toggle
+function toggleMute() {
+  isMuted = !isMuted;
+  const allAudio = [flipSound, matchSound, ...Object.values(winSounds), ...Object.values(editionLoops)];
+  allAudio.forEach(audio => audio.muted = isMuted);
+  muteButton.textContent = isMuted ? "Unmute" : "Mute";
+}
+
 // Slider input
 volumeControl.addEventListener("input", () => {
   if (!isMuted) setVolume(volumeControl.value);
 });
 
-// Mute toggle
-muteButton.addEventListener("click", () => {
-  isMuted = !isMuted;
+// Mute button click
+muteButton.addEventListener("click", toggleMute);
 
-  const allAudio = [flipSound, matchSound, ...Object.values(winSounds), ...Object.values(editionLoops)];
-  allAudio.forEach(audio => audio.muted = isMuted);
-
-  muteButton.textContent = isMuted ? "Unmute" : "Mute";
-});
-
-// Safari / WebKit: unlock audio & apply initial volume after first user gesture
-document.addEventListener("click", () => {
-  // Resume AudioContext if blocked
+// ==========================
+// Safari / WebKit Unlock
+// ==========================
+function unlockAudio() {
   if (typeof AudioContext !== "undefined") {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
   }
+  // Apply current slider value immediately
+  if (!isMuted) setVolume(volumeControl.value);
 
-  // Apply current slider value to all audio
-  setVolume(volumeControl.value);
-}, { once: true });
+  // Remove unlock listeners
+  volumeControl.removeEventListener("pointerdown", unlockAudio);
+  volumeControl.removeEventListener("touchstart", unlockAudio);
+  document.removeEventListener("click", unlockAudio);
+}
+
+// Unlock on first user gesture
+document.addEventListener("click", unlockAudio, { once: true });
+volumeControl.addEventListener("pointerdown", unlockAudio, { once: true });
+volumeControl.addEventListener("touchstart", unlockAudio, { once: true });
 
 
 function fadeOutAudio(audio, duration = 1000) {
