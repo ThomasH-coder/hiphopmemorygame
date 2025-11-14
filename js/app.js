@@ -90,28 +90,48 @@ Object.values(editionLoops).forEach(primeAudio);
 
 
 // ==========================
-// Volume Control
+// Volume & Mute Control (Safari-safe)
 // ==========================
 let isMuted = false;
 
-function setVolume(volume) {
-  flipSound.volume = Math.min(volume * 1.5, 1);
-  matchSound.volume = volume;
-  for (const key in winSounds) winSounds[key].volume = volume;
-  for (const key in editionLoops) editionLoops[key].volume = volume * 0.3;
+function setVolume(vol) {
+  // Ensure numeric & clamped 0–1
+  const v = Math.min(Math.max(parseFloat(vol), 0), 1);
+
+  flipSound.volume = Math.min(v * 1.5, 1);
+  matchSound.volume = v;
+
+  Object.values(winSounds).forEach(audio => audio.volume = v);
+  Object.values(editionLoops).forEach(audio => audio.volume = v * 0.3);
 }
 
-
+// Slider input
 volumeControl.addEventListener("input", () => {
   if (!isMuted) setVolume(volumeControl.value);
 });
 
+// Mute toggle
 muteButton.addEventListener("click", () => {
   isMuted = !isMuted;
+
   const allAudio = [flipSound, matchSound, ...Object.values(winSounds), ...Object.values(editionLoops)];
   allAudio.forEach(audio => audio.muted = isMuted);
+
   muteButton.textContent = isMuted ? "Unmute" : "Mute";
 });
+
+// Safari / WebKit: unlock audio & apply initial volume after first user gesture
+document.addEventListener("click", () => {
+  // Resume AudioContext if blocked
+  if (typeof AudioContext !== "undefined") {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") ctx.resume();
+  }
+
+  // Apply current slider value to all audio
+  setVolume(volumeControl.value);
+}, { once: true });
+
 
 function fadeOutAudio(audio, duration = 1000) {
   const step = audio.volume / (duration / 50);
