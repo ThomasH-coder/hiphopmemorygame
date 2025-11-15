@@ -1,3 +1,6 @@
+let audioUnlocked = false; // new
+
+
 // ==========================
 // DOM Elements
 // ==========================
@@ -115,7 +118,7 @@ function toggleMute() {
 
 // Slider input
 volumeControl.addEventListener("input", () => {
-  if (!isMuted) setVolume(volumeControl.value);
+  if (audioUnlocked && !isMuted) setVolume(volumeControl.value);
 });
 
 // Mute button click
@@ -124,24 +127,34 @@ muteButton.addEventListener("click", toggleMute);
 // ==========================
 // Safari / WebKit Unlock
 // ==========================
-function unlockAudio() {
+function unlockAllAudio() {
+  if (audioUnlocked) return;
+
+  // Resume AudioContext (Safari)
   if (typeof AudioContext !== "undefined") {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
   }
-  // Apply current slider value immediately
-  if (!isMuted) setVolume(volumeControl.value);
 
-  // Remove unlock listeners
-  volumeControl.removeEventListener("pointerdown", unlockAudio);
-  volumeControl.removeEventListener("touchstart", unlockAudio);
-  document.removeEventListener("click", unlockAudio);
+  // Prime all audio
+  const allAudio = [flipSound, matchSound, ...Object.values(winSounds), ...Object.values(editionLoops)];
+  allAudio.forEach(audio => {
+    audio.volume = audio.volume; // triggers Safari audio
+    audio.play().then(() => audio.pause()).catch(() => {}); // unlocks Safari
+  });
+
+  audioUnlocked = true;
+  
+  // Apply current volume immediately
+  if (!isMuted) setVolume(volumeControl.value);
 }
 
+
 // Unlock on first user gesture
-document.addEventListener("click", unlockAudio, { once: true });
-volumeControl.addEventListener("pointerdown", unlockAudio, { once: true });
-volumeControl.addEventListener("touchstart", unlockAudio, { once: true });
+document.addEventListener("click", unlockAllAudio, { once: true });
+document.addEventListener("touchstart", unlockAllAudio, { once: true });
+volumeControl.addEventListener("pointerdown", unlockAllAudio, { once: true });
+loadGameButton.addEventListener("click", unlockAllAudio, { once: true });
 
 
 function fadeOutAudio(audio, duration = 1000) {
