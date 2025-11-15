@@ -115,7 +115,6 @@ function toggleMute() {
 
 // Slider input
 volumeControl.addEventListener("input", () => {
-  unlockAudio(); // ✅ ensure Safari allows audio
   if (!isMuted) setVolume(volumeControl.value);
 });
 
