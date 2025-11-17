@@ -118,7 +118,7 @@ function toggleMute() {
 
 // Slider input
 volumeControl.addEventListener("input", () => {
-  if (audioUnlocked && !isMuted) setVolume(volumeControl.value);
+  if (!isMuted) setVolume(volumeControl.value);
 });
 
 // Mute button click
@@ -127,34 +127,24 @@ muteButton.addEventListener("click", toggleMute);
 // ==========================
 // Safari / WebKit Unlock
 // ==========================
-function unlockAllAudio() {
-  if (audioUnlocked) return;
-
-  // Resume AudioContext (Safari)
+function unlockAudio() {
   if (typeof AudioContext !== "undefined") {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === "suspended") ctx.resume();
   }
-
-  // Prime all audio
-  const allAudio = [flipSound, matchSound, ...Object.values(winSounds), ...Object.values(editionLoops)];
-  allAudio.forEach(audio => {
-    audio.volume = audio.volume; // triggers Safari audio
-    audio.play().then(() => audio.pause()).catch(() => {}); // unlocks Safari
-  });
-
-  audioUnlocked = true;
-  
-  // Apply current volume immediately
+  // Apply current slider value immediately
   if (!isMuted) setVolume(volumeControl.value);
+
+  // Remove unlock listeners
+  volumeControl.removeEventListener("pointerdown", unlockAudio);
+  volumeControl.removeEventListener("touchstart", unlockAudio);
+  document.removeEventListener("click", unlockAudio);
 }
 
-
 // Unlock on first user gesture
-document.addEventListener("click", unlockAllAudio, { once: true });
-document.addEventListener("touchstart", unlockAllAudio, { once: true });
-volumeControl.addEventListener("pointerdown", unlockAllAudio, { once: true });
-loadGameButton.addEventListener("click", unlockAllAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once: true });
+volumeControl.addEventListener("pointerdown", unlockAudio, { once: true });
+volumeControl.addEventListener("touchstart", unlockAudio, { once: true });
 
 
 function fadeOutAudio(audio, duration = 1000) {
@@ -290,6 +280,7 @@ async function startGame(file = "data/cards-90s.json", editionName = "90s Rapper
     gameBoard.appendChild(card);
     
   });
+  
 
   clearInterval(timer);
   timerElement.textContent = `Time: 0s`;
@@ -298,6 +289,38 @@ async function startGame(file = "data/cards-90s.json", editionName = "90s Rapper
   showBestTime(currentEdition);
   showLeaderboard(currentEdition);
 }
+
+document.addEventListener("keydown", e => {
+  const cards = Array.from(gameBoard.querySelectorAll(".card"));
+  const currentIndex = cards.indexOf(document.activeElement);
+  if (currentIndex === -1) return;
+
+  const cardWidth = cards[0].getBoundingClientRect().width;
+  const columns = Math.max(1, Math.floor(gameBoard.offsetWidth / cardWidth));
+
+  let nextIndex = currentIndex;
+
+  switch (e.key) {
+    case "ArrowRight":
+      nextIndex = (currentIndex + 1) % cards.length;
+      break;
+    case "ArrowLeft":
+      nextIndex = (currentIndex - 1 + cards.length) % cards.length;
+      break;
+    case "ArrowDown":
+      nextIndex = (currentIndex + columns) % cards.length;
+      break;
+    case "ArrowUp":
+      nextIndex = (currentIndex - columns + cards.length) % cards.length;
+      break;
+    default:
+      return;
+  }
+
+  e.preventDefault();
+  cards[nextIndex].focus();
+});
+
 
 // ==========================
 // Flip Logic

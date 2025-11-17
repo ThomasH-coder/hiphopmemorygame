@@ -142,7 +142,7 @@
     <div class="volume-container">
       <label for="volume-control" class="volume-label">Volume:</label>
       <span style="padding-left: 9px"></span>
-      <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1">
+      <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1" aria-label="Volume control" role="slider" aria-valuemin="0" aria-valuemax="1">
     </div>
 
     <!-- Title Image -->
@@ -158,7 +158,7 @@
     <!-- Timer -->
     <p id="timer">Time: 0s</p>
 
-    <div id="match-feedback" aria-live="polite"></div>
+    <div id="match-feedback" aria-live="polite" aria-atomic="true"></div>
 
     <!-- Controls -->
     <button id="restart">Restart</button>
