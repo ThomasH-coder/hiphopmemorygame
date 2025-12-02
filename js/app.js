@@ -13,6 +13,7 @@ const editionSelect = document.getElementById("edition-select");
 const loadGameButton = document.getElementById("load-game");
 const muteButton = document.getElementById("mute-button");
 const volumeControl = document.getElementById("volume-control");
+const volumeLabel = document.querySelector(".volume-label"); 
 
 // Modal Elements
 const winModal = document.getElementById("win-modal");
@@ -20,6 +21,12 @@ const finalTimeElement = document.getElementById("final-time");
 const playerNameInput = document.getElementById("player-name");
 const saveScoreButton = document.getElementById("save-score");
 const closeModalButton = document.getElementById("close-modal");
+
+// --- Hide volume UI for iOS Safari ---
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+  volumeControl.style.display = "none";
+  if (volumeLabel) volumeLabel.style.display = "none";
+}
 
 // ==========================
 // Safari Audio Unlock
